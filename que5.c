@@ -1,45 +1,59 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<unistd.h>
+#include<sys/wait.h>
 
 int main()
 {
-  int arr[1000],a2[10]={0,0,0,0,0,0,0,0,0,0},pid,sum=0,c=0,sumt=0;
-
-  //takin input in array
-
-  for(int i=0;i<1000;i++)
+  int a1[1000],a2[10]={0,0,0,0,0,0,0,0,0,0},sum=0,pid,c=0,n=0,sumt=0;
+  int a=0,b=0;
+ 
+  for(int a=0;a<1000;a++)
      {
-       arr[i]=1;
+       a1[a]=1;
      }
-
-  //calling fork
-  
-  pid=fork();
-
-  if(pid==0)
-   {
-     for(int i1=0;i1<2;i1++)
-       {
-         pid=fork();
-         for(int x=c;x<100;x++)
-           {
-              sum=sum+arr[x];
-           }
-         a2[n]=sum;
-         c=x;
-         n++;         
-       } 
-   }
    
-  if(pid<0)
-    printf("child creation failed.\n");
-  
-   for(int y=0;y<10;y++)
-     {
-        sumt=sumt+ar[y];
-     }    
+    int fid[2];
+    if(pipe(fid)==-1)
+      {
+          printf("pipe failed \n");
+          return 1;
+      }   
 
-   printf("sum= %d ",sum);
-   print("\n");
+   pid=fork();
+   if(pid==0)
+    {
+      for(int x=0;x<10;x++)
+          {
+         
+           pid= fork();
+           if(pid==0)
+           {
+             for(b=c;b<(b+100);b++)
+                  {
+                     sum=sum+a1[b];
+                  }
+                  a2[n]=sum;
+                  c=b;
+                  n++;
+                    
+           }
+            
+         } 
+          exit(0);  
+      }
+      else
+        { 
+         int out[10];
+         read(fid[0],out,10);
+         for(int y=0;y<10;y++)
+            {
+               sumt=sumt+a2[y];
+             } 
+         printf("sumTotal= %d",sumt);
+         printf("\n");
+         close(fid[0]);
+        }
+      
   return 0;
 }
