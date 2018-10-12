@@ -36,23 +36,22 @@ int main()
                   a2[n]=sum;
                   c=b;
                   n++;
-                    
+              exit(0);       
            }
             
          } 
-          exit(0);  
+           
       }
       else
         { 
-         int out[10];
-         read(fid[0],out,10);
+         
          for(int y=0;y<10;y++)
             {
                sumt=sumt+a2[y];
              } 
          printf("sumTotal= %d",sumt);
          printf("\n");
-         close(fid[0]);
+        
         }
       
   return 0;
